@@ -52,4 +52,31 @@ const getNoteByIdHandler = (request, h) => {
     }).code(200);
 };
 
-module.exports = { addNoteHandler, getNoteHandler, getNoteByIdHandler };
+const editNoteByIdHandler = (request, h) => {
+    const {id} = request.params;
+    const index = notes.findIndex((note) => note.id === id);
+
+    const {title, tags, body} = request.payload;
+    const updatedAt = new Date().toISOString();
+
+    if (!index) {
+        return h.response({
+            status: 'fail',
+            message: 'Data tidak ditemukan'
+        }).code(404);
+    }else {
+        notes[index] = {
+            ...notes[index],
+            title,
+            tags,
+            body,
+            updatedAt
+        };
+        return h.response({
+            status: 'success',
+            message: 'Data Berhasil diedit'
+        }).code(200);
+    }
+};
+
+module.exports = { addNoteHandler, getNoteHandler, getNoteByIdHandler, editNoteByIdHandler };
