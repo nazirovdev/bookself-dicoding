@@ -59,7 +59,7 @@ const editNoteByIdHandler = (request, h) => {
     const {title, tags, body} = request.payload;
     const updatedAt = new Date().toISOString();
 
-    if (!index) {
+    if (index === -1) {
         return h.response({
             status: 'fail',
             message: 'Data tidak ditemukan'
@@ -79,4 +79,22 @@ const editNoteByIdHandler = (request, h) => {
     }
 };
 
-module.exports = { addNoteHandler, getNoteHandler, getNoteByIdHandler, editNoteByIdHandler };
+const deleteNoteByIdHandler = (request, h) => {
+    const {id} = request.params;
+    const index = notes.findIndex((note) => note.id === id);
+
+    if (index === -1) {
+        return h.response({
+            status: 'fail',
+            message: 'Data tidak ditemukan'
+        }).code(404);
+    }else {
+        notes.splice(index, 1);
+        return h.response({
+            status: 'success',
+            message: 'Data Berhasil dihapus'
+        }).code(201);
+    }
+};
+
+module.exports = { addNoteHandler, getNoteHandler, getNoteByIdHandler, editNoteByIdHandler, deleteNoteByIdHandler };
