@@ -35,4 +35,21 @@ const getNoteHandler = (request, h) => {
     }).code(200);
 };
 
-module.exports = { addNoteHandler, getNoteHandler };
+const getNoteByIdHandler = (request, h) => {
+    const { id } = request.params;
+    const note = notes.find((note) => note.id === id);
+
+    if (!note) {
+        return h.response({
+            status: 'fail',
+            message: 'Data tidak ditemukan'
+        }).code(404);
+    }
+    return h.response({
+        data: {
+            note
+        }
+    }).code(200);
+};
+
+module.exports = { addNoteHandler, getNoteHandler, getNoteByIdHandler };
