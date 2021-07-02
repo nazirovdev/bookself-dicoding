@@ -18,7 +18,10 @@ const addNoteHandler = (request, h) => {
     if (isSuccess) {
         return h.response({
             status: 'success',
-            message: 'Catatan berhasil disimpan'
+            message: 'Catatan berhasil ditambahkan',
+            data: {
+                id
+            }
         }).code(201);
     }
     return h.response({
@@ -29,6 +32,7 @@ const addNoteHandler = (request, h) => {
 
 const getNoteHandler = (request, h) => {
     return h.response({
+        status: 'success',
         data: {
             notes
         }
@@ -46,6 +50,7 @@ const getNoteByIdHandler = (request, h) => {
         }).code(404);
     }
     return h.response({
+        status: 'success',
         data: {
             note
         }
@@ -74,7 +79,7 @@ const editNoteByIdHandler = (request, h) => {
         };
         return h.response({
             status: 'success',
-            message: 'Data Berhasil diedit'
+            message: 'Catatan berhasil diperbarui'
         }).code(200);
     }
 };
@@ -86,14 +91,14 @@ const deleteNoteByIdHandler = (request, h) => {
     if (index === -1) {
         return h.response({
             status: 'fail',
-            message: 'Data tidak ditemukan'
+            message: 'Catatan tidak ditemukan'
         }).code(404);
     }else {
         notes.splice(index, 1);
         return h.response({
             status: 'success',
-            message: 'Data Berhasil dihapus'
-        }).code(201);
+            message: 'Catatan berhasil dihapus'
+        }).code(200);
     }
 };
 
